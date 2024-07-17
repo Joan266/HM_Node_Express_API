@@ -1,5 +1,5 @@
-import employeeData from '../data/employeeData.json';
-import { EmployeeInterface } from '../interfaces/employeeInterface';
+import employeeData from '../data/employee.json';
+import { EmployeeInterface } from '../interfaces/employee';
 
 export class EmployeeService {
     static getEmployeeList(): EmployeeInterface[] {

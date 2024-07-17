@@ -5,7 +5,7 @@ import express, { Express } from 'express';
 // import userController from './controllers/userController';
 // import bookingController from './controllers/bookingController';
 // import contactController from './controllers/contactController';
-import loginController from './controllers/loginController';
+import loginController from './controllers/login';
 
 export const app: Express = express();
 

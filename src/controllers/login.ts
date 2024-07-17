@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { EmployeeService } from '../services/employeeServices';
+import { EmployeeService } from '../services/employee';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -7,7 +7,7 @@ dotenv.config();
 
 const router = express.Router();
 
-export const generateAccessToken = (email: string): string => {
+const generateAccessToken = (email: string): string => {
   return jwt.sign({ email }, process.env.TOKEN_SECRET as string, { expiresIn: '1d' });
 };
 
