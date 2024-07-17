@@ -1,0 +1,212 @@
+[
+  {
+    "id": "7218392057",
+    "first_name": "Lucía",
+    "last_name": "García",
+    "phone_number": "+34 612 459 803",
+    "join_date": "2018-07-15T00:00:00.000Z",
+    "job_desk": "Handle check-in and check-out procedures, including reservations and room assignments",
+    "schedule": {
+      "days": "Monday, Wednesday",
+      "hours": "8:00 AM - 4:00 PM"
+    },
+    "status": false,
+    "email": "lucia.garcia@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "8345701826",
+    "first_name": "Manuel",
+    "last_name": "Martínez",
+    "phone_number": "+34 679 532 145",
+    "join_date": "2019-09-05T00:00:00.000Z",
+    "job_desk": "Provide information about hotel facilities, services, and local attractions",
+    "schedule": {
+      "days": "Tuesday, Thursday",
+      "hours": "10:00 AM - 6:00 PM"
+    },
+    "status": true,
+    "email": "manuel.martinez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "9462830154",
+    "first_name": "Sofía",
+    "last_name": "Fernández",
+    "phone_number": "+34 634 978 521",
+    "join_date": "2020-04-12T00:00:00.000Z",
+    "job_desk": "Assist guests with special requests or needs, such as arranging for childcare services",
+    "schedule": {
+      "days": "Monday, Wednesday",
+      "hours": "12:00 PM - 8:00 PM"
+    },
+    "status": false,
+    "email": "sofia.fernandez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "5789216340",
+    "first_name": "Diego",
+    "last_name": "López",
+    "phone_number": "+34 645 701 932",
+    "join_date": "2018-02-28T00:00:00.000Z",
+    "job_desk": "Handle guest complaints, ensuring guest satisfaction and resolving any issues promptly",
+    "schedule": {
+      "days": "Sunday, Tuesday",
+      "hours": "1:00 PM - 9:00 PM"
+    },
+    "status": true,
+    "email": "diego.lopez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "3027468591",
+    "first_name": "Elena",
+    "last_name": "Rodríguez",
+    "phone_number": "+34 612 435 789",
+    "join_date": "2019-10-19T00:00:00.000Z",
+    "job_desk": "Coordinate housekeeping and maintenance requests from guests",
+    "schedule": {
+      "days": "Tuesday, Friday",
+      "hours": "9:00 AM - 5:00 PM"
+    },
+    "status": false,
+    "email": "elena.rodriguez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "5178402963",
+    "first_name": "Javier",
+    "last_name": "Gómez",
+    "phone_number": "+34 679 540 123",
+    "join_date": "2020-03-07T00:00:00.000Z",
+    "job_desk": "Promote hotel services and amenities to guests",
+    "schedule": {
+      "days": "Wednesday, Friday",
+      "hours": "10:00 AM - 6:00 PM"
+    },
+    "status": true,
+    "email": "javier.gomez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "6582931045",
+    "first_name": "Carmen",
+    "last_name": "Pérez",
+    "phone_number": "+34 634 892 317",
+    "join_date": "2018-06-11T00:00:00.000Z",
+    "job_desk": "Assist with administrative tasks such as handling guest inquiries and reservations",
+    "schedule": {
+      "days": "Monday, Wednesday",
+      "hours": "9:00 AM - 5:00 PM"
+    },
+    "status": false,
+    "email": "carmen.perez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "8093576214",
+    "first_name": "Alejandro",
+    "last_name": "Sanchez",
+    "phone_number": "+34 612 938 475",
+    "join_date": "2017-12-03T00:00:00.000Z",
+    "job_desk": "Ensure compliance with hotel policies and procedures",
+    "schedule": {
+      "days": "Monday, Thursday",
+      "hours": "8:00 AM - 4:00 PM"
+    },
+    "status": true,
+    "email": "alejandro.sanchez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "9365714820",
+    "first_name": "Paula",
+    "last_name": "Romero",
+    "phone_number": "+34 679 384 561",
+    "join_date": "2019-05-24T00:00:00.000Z",
+    "job_desk": "Assist in organizing and coordinating events and activities for guests",
+    "schedule": {
+      "days": "Wednesday, Thursday",
+      "hours": "10:00 AM - 6:00 PM"
+    },
+    "status": true,
+    "email": "paula.romero@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "2451803769",
+    "first_name": "Pablo",
+    "last_name": "Hernández",
+    "phone_number": "+34 645 928 374",
+    "join_date": "2018-08-09T00:00:00.000Z",
+    "job_desk": "Provide support and assistance to guests with disabilities",
+    "schedule": {
+      "days": "Tuesday, Thursday",
+      "hours": "9:00 AM - 5:00 PM"
+    },
+    "status": false,
+    "email": "pablo.hernandez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "7359461028",
+    "first_name": "Laura",
+    "last_name": "Gutiérrez",
+    "phone_number": "+34 612 740 596",
+    "join_date": "2019-04-05T00:00:00.000Z",
+    "job_desk": "Handle guest requests for additional amenities or services",
+    "schedule": {
+      "days": "Monday, Wednesday",
+      "hours": "8:00 AM - 4:00 PM"
+    },
+    "status": true,
+    "email": "laura.gutierrez@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "1829457306",
+    "first_name": "Jorge",
+    "last_name": "Navarro",
+    "phone_number": "+34 679 623 804",
+    "join_date": "2017-11-17T00:00:00.000Z",
+    "job_desk": "Assist in managing and maintaining the hotel's online presence and social media accounts",
+    "schedule": {
+      "days": "Wednesday, Thursday",
+      "hours": "10:00 AM - 6:00 PM"
+    },
+    "status": true,
+    "email": "jorge.navarro@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "5748926130",
+    "first_name": "Ana",
+    "last_name": "Morales",
+    "phone_number": "+34 634 910 582",
+    "join_date": "2020-02-14T00:00:00.000Z",
+    "job_desk": "Coordinate guest transportation and shuttle services",
+    "schedule": {
+      "days": "Tuesday, Thursday",
+      "hours": "11:00 AM - 7:00 PM"
+    },
+    "status": false,
+    "email": "ana.morales@example.com",
+    "password": "password123"
+  },
+  {
+    "id": "9236458710",
+    "first_name": "Eva",
+    "last_name": "Santos",
+    "phone_number": "+34 679 548 317",
+    "join_date": "2019-05-18T00:00:00.000Z",
+    "job_desk": "Handle guest complaints and ensure satisfactory resolution",
+    "schedule": {
+      "days": "Tuesday, Thursday",
+      "hours": "10:00 AM - 6:00 PM"
+    },
+    "status": false,
+    "email": "eva.santos@example.com",
+    "password": "password123"
+  }
+]
