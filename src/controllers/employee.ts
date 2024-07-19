@@ -5,26 +5,26 @@ import { generateAccessToken } from '../utils/generateAccesToken';
 
 const router = express.Router();
 
-router.get('/employees', (req: Request, res: Response) => {
+router.get('/', (req: Request, res: Response) => {
   try {
     const employees = EmployeeService.getEmployeeList();
     res.json({ employees });
   } catch (error) {
-    res.status(500).json({ errorMessage: error.message });
+    res.status(500).json({ errorMessage: error });
   }
 });
 
-router.get('/employees/:id', (req: Request, res: Response) => {
+router.get('/:id', (req: Request, res: Response) => {
   const id = req.params.id;
   try {
     const employee = EmployeeService.getEmployee(id);
     res.json({ employee });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
-router.post('/employees/login', (req: Request, res: Response) => {
+router.post('/login', (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -41,22 +41,22 @@ router.post('/employees/login', (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       error: 'Bad Request',
-      message: error.message,
+      message: error,
     });
   }
 });
 
-router.post('/employees', (req: Request, res: Response) => {
+router.post('/', (req: Request, res: Response) => {
   const newEmployee: EmployeeInterface = req.body;
   try {
     const createdEmployee = EmployeeService.createEmployee(newEmployee);
     res.status(201).json({ createdEmployee });
   } catch (error) {
-    res.status(400).json({ errorMessage: error.message });
+    res.status(400).json({ errorMessage: error });
   }
 });
 
-router.put('/employees/:id', (req: Request, res: Response) => {
+router.put('/:id', (req: Request, res: Response) => {
   const id = req.params.id;
   const updatedEmployee: EmployeeInterface = req.body;
   updatedEmployee.id = id;
@@ -64,17 +64,17 @@ router.put('/employees/:id', (req: Request, res: Response) => {
     const updated = EmployeeService.updateEmployee(updatedEmployee);
     res.json({ updatedEmployee: updated });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
-router.delete('/employees/:id', (req: Request, res: Response) => {
+router.delete('/:id', (req: Request, res: Response) => {
   const id = req.params.id;
   try {
     EmployeeService.deleteEmployee(id);
     res.json({ message: `Employee with id ${id} deleted` });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
