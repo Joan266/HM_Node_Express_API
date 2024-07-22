@@ -10,7 +10,7 @@ router.get('/employees', (req: Request, res: Response) => {
     const employees = EmployeeService.getEmployeeList();
     res.json({ employees });
   } catch (error) {
-    res.status(500).json({ errorMessage: error.message });
+    res.status(500).json({ errorMessage: error });
   }
 });
 
@@ -20,7 +20,7 @@ router.get('/employees/:id', (req: Request, res: Response) => {
     const employee = EmployeeService.getEmployee(id);
     res.json({ employee });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
@@ -41,7 +41,7 @@ router.post('/employees/login', (req: Request, res: Response) => {
   } catch (error) {
     res.status(400).json({
       error: 'Bad Request',
-      message: error.message,
+      message: error,
     });
   }
 });
@@ -52,7 +52,7 @@ router.post('/employees', (req: Request, res: Response) => {
     const createdEmployee = EmployeeService.createEmployee(newEmployee);
     res.status(201).json({ createdEmployee });
   } catch (error) {
-    res.status(400).json({ errorMessage: error.message });
+    res.status(400).json({ errorMessage: error });
   }
 });
 
@@ -64,7 +64,7 @@ router.put('/employees/:id', (req: Request, res: Response) => {
     const updated = EmployeeService.updateEmployee(updatedEmployee);
     res.json({ updatedEmployee: updated });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
@@ -74,7 +74,7 @@ router.delete('/employees/:id', (req: Request, res: Response) => {
     EmployeeService.deleteEmployee(id);
     res.json({ message: `Employee with id ${id} deleted` });
   } catch (error) {
-    res.status(404).json({ errorMessage: error.message });
+    res.status(404).json({ errorMessage: error });
   }
 });
 
