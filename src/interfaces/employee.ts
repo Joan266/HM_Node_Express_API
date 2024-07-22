@@ -1,17 +1,15 @@
 export interface EmployeeInterface {
-  id: string;
-  first_name: string;
-  last_name: string;
+  _id: string;
+  firstname: string;
+  lastname: string;
   email: string;
-  phone_number: string;
-  job_desk: string;
-  join_date: string;
+  phonenumber: string;
+  jobdesk: string;
+  joindate: Date;
   status: boolean;
   password: string;
-  schedule: {
-    days: string;
-    hours: string;
-  };
+  days: string;
+  hours: string;
 }
 
-export type EmployeeProperties = 'id' | 'first_name' | 'last_name' | 'email' | 'phone_number' | 'job_desk' | 'join_date' | 'status' | 'password' | 'schedule';
+export type EmployeeProperties = '_id' | 'first_name' | 'last_name' | 'email' | 'phone_number' | 'job_desk' | 'join_date' | 'status' | 'password' | 'days' | 'hours';

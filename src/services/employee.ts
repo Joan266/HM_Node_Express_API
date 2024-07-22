@@ -1,41 +1,75 @@
-import employeeData from '../data/employee.json';
 import { EmployeeInterface } from '../interfaces/employee';
+import { Employee } from '../models/employee';
 
 export class EmployeeService {
-    static getEmployeeList(): EmployeeInterface[] {
-        return employeeData;
-    }
 
-    static getEmployee(id: string): EmployeeInterface {
-        const employee: EmployeeInterface | undefined = employeeData.find((employee: { id: string; }) => employee.id === id);
-        if (!employee) 
-            throw new Error('Cannot find employee');
-        return employee;
+  static async getEmployeeList(): Promise<EmployeeInterface[]> {
+    try {
+      const employeeData = await Employee.find();
+      return employeeData as unknown as EmployeeInterface[];
+    } catch (error) {
+      throw new Error('Error retrieving employee list: ' + error);
     }
-    static validateEmployeeCredentials(email: string, password: string): EmployeeInterface {
-        const employee: EmployeeInterface | undefined = employeeData.find((employee: { email: string; password: string; }) => employee.email === email && employee.password === password);
-        if (!employee) 
-            throw new Error('Cannot find employee or password is incorrect');
-        return employee;
-    }
-    static createEmployee(employee: EmployeeInterface): EmployeeInterface {
-        employeeData.push(employee);
-        return employee;
-    }
+  }
 
-    static updateEmployee(updatedEmployee: EmployeeInterface): EmployeeInterface {
-        const index = employeeData.findIndex((employee: { id: string; }) => employee.id === updatedEmployee.id);
-        if (index === -1) 
-            throw new Error('Cannot find employee to update');
-        employeeData[index] = updatedEmployee;
-        return updatedEmployee;
+  static async getEmployee(id: string): Promise<EmployeeInterface> {
+    try {
+      const employee = await Employee.findById(id);
+      if (!employee) {
+        throw new Error('Cannot find employee');
+      }
+      return employee as unknown as EmployeeInterface;
+    } catch (error) {
+      throw new Error('Error retrieving employee: ' + error);
     }
+  }
 
-    static deleteEmployee(id: string): void {
-        const index = employeeData.findIndex((employee: { id: string; }) => employee.id === id);
-        if (index === -1) 
-            throw new Error('Cannot find employee to delete');
-        employeeData.splice(index, 1);
-        console.log(`Employee with id ${id} deleted`);
+  static async login({ emailOrPhonenumber, password }: { emailOrPhonenumber: string; password: string }): Promise<EmployeeInterface> {
+    try {
+      const employee = await Employee.login({ emailOrPhonenumber, password });
+      if (!employee) {
+        throw new Error('Cannot find employee or password is incorrect');
+      }
+      return employee as unknown as EmployeeInterface;
+    } catch (error) {
+      throw new Error('Error logging in: ' + error);
     }
+  }
+
+  static async signup({ email, password, phonenumber, firstname, lastname, joindate }:
+    { email: string; password: string; phonenumber: string; firstname: string; lastname: string; joindate: Date }): Promise<EmployeeInterface> {
+    try {
+      const employee = await Employee.signup({ email, password, phonenumber, firstname, lastname, joindate });
+      if (!employee) {
+        throw new Error('Error signing up');
+      }
+      return employee as unknown as EmployeeInterface;
+    } catch (error) {
+      throw new Error('Error signing up: ' + error);
+    }
+  }
+
+  static async updateEmployee(id: string, updateParameters: Partial<EmployeeInterface>): Promise<EmployeeInterface> {
+    try {
+      const updatedEmployee = await Employee.findByIdAndUpdate(id, updateParameters, { new: true });
+      if (!updatedEmployee) {
+        throw new Error('Cannot find employee to update');
+      }
+      return updatedEmployee as unknown as EmployeeInterface;
+    } catch (error) {
+      throw new Error('Error updating employee: ' + error);
+    }
+  }
+
+  static async deleteEmployee(id: string): Promise<void> {
+    try {
+      const deletedEmployee = await Employee.findByIdAndDelete(id);
+      if (!deletedEmployee) {
+        throw new Error('Cannot find employee to delete');
+      }
+      console.log(`Employee with id ${id} deleted`);
+    } catch (error) {
+      throw new Error('Error deleting employee: ' + error);
+    }
+  }
 }
