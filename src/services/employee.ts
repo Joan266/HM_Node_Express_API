@@ -24,7 +24,7 @@ export class EmployeeService {
     }
   }
 
-  static async login({ credentials, password }: { credentials: string; password: string }): Promise<EmployeeInterface> {
+  static async login(credentials: string, password: string): Promise<EmployeeInterface> {
     try {
       const employee = await Employee.login({ credentials, password });
       if (!employee) {
