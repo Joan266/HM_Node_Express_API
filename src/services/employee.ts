@@ -1,5 +1,5 @@
 import { EmployeeInterface } from '../interfaces/employee';
-import { Employee } from '../models/employee';
+import  Employee from '../models/employee';
 
 export class EmployeeService {
 
@@ -24,9 +24,9 @@ export class EmployeeService {
     }
   }
 
-  static async login({ emailOrPhonenumber, password }: { emailOrPhonenumber: string; password: string }): Promise<EmployeeInterface> {
+  static async login({ credentials, password }: { credentials: string; password: string }): Promise<EmployeeInterface> {
     try {
-      const employee = await Employee.login({ emailOrPhonenumber, password });
+      const employee = await Employee.login({ credentials, password });
       if (!employee) {
         throw new Error('Cannot find employee or password is incorrect');
       }

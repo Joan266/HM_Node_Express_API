@@ -31,7 +31,7 @@ router.post('/employees/login', (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const employee = EmployeeService.validateEmployeeCredentials(email, password);
+    const employee = EmployeeService.login(email, password);
     if (!employee) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
@@ -49,7 +49,7 @@ router.post('/employees/login', (req: Request, res: Response) => {
 router.post('/employees', (req: Request, res: Response) => {
   const newEmployee: EmployeeInterface = req.body;
   try {
-    const createdEmployee = EmployeeService.createEmployee(newEmployee);
+    const createdEmployee = EmployeeService.signup(newEmployee);
     res.status(201).json({ createdEmployee });
   } catch (error) {
     res.status(400).json({ errorMessage: error });
@@ -58,11 +58,10 @@ router.post('/employees', (req: Request, res: Response) => {
 
 router.put('/employees/:id', (req: Request, res: Response) => {
   const id = req.params.id;
-  const updatedEmployee: EmployeeInterface = req.body;
-  updatedEmployee.id = id;
+  const updateParameters = req.body;
   try {
-    const updated = EmployeeService.updateEmployee(updatedEmployee);
-    res.json({ updatedEmployee: updated });
+    const updatedEmployee = EmployeeService.updateEmployee(id, updateParameters);
+    res.json({ updatedEmployee });
   } catch (error) {
     res.status(404).json({ errorMessage: error });
   }

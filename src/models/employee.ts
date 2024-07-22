@@ -1,4 +1,4 @@
-import mongoose, { Schema, Model } from 'mongoose';
+import mongoose, { Model, Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
 import { EmployeeInterface } from '../interfaces/employee';
@@ -13,13 +13,13 @@ interface EmployeeModel extends Model<EmployeeInterface> {
     joindate: Date;
   }): Promise<EmployeeInterface>;
   login(data: {
-    emailOrPhonenumber: string;
+    credentials: string;
     password: string;
   }): Promise<EmployeeInterface>;
 }
 
 const employeeSchema = new Schema<EmployeeInterface, EmployeeModel>({
-  _id: Schema.Types.ObjectId,
+  _id: { type: Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
   firstname: {
     type: String,
     required: true,
@@ -87,11 +87,7 @@ employeeSchema.statics.signup = async function (data: {
   const existingEmployee = await this.findOne({ $or: [{ email }, { phonenumber }] });
 
   if (existingEmployee) {
-    if (existingEmployee.email === email) {
-      throw new Error('Email already in use');
-    } else {
-      throw new Error('Phone number already in use');
-    }
+    throw new Error('Credentials already in use');
   }
 
   const salt = await bcrypt.genSalt(10);
@@ -110,4 +106,29 @@ employeeSchema.statics.signup = async function (data: {
   return employee;
 };
 
-export const Employee = mongoose.model('Employee', employeeSchema);
+employeeSchema.statics.login = async function ({ credentials, password }) {
+  if (!credentials || !password) {
+    throw Error('All fields must be filled');
+  }
+
+  const isEmail = validator.isEmail(credentials);
+
+  let employee = await this.findOne({
+    [isEmail ? 'email' : 'phonenumber']: credentials
+  });
+
+  if (!employee) {
+    throw Error('Incorrect credentials');
+  }
+  const match = await bcrypt.compare(password, employee.password);
+
+  if (!match) {
+    throw Error('Incorrect credentials');
+  }
+
+  return employee;
+};
+
+const Employee = model<EmployeeInterface, EmployeeModel>('Employee', employeeSchema);
+
+export default Employee;
