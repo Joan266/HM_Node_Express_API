@@ -6,6 +6,7 @@ import { generateAccessToken } from '../utils/generateAccesToken';
 const router = express.Router();
 
 router.get('/employees', async (req: Request, res: Response) => {
+
   try {
     const employees = await EmployeeService.getEmployeeList();
     res.json({ employees });
@@ -15,6 +16,7 @@ router.get('/employees', async (req: Request, res: Response) => {
 });
 
 router.get('/employees/:id', async (req: Request, res: Response) => {
+
   const id = req.params.id;
   try {
     const employee = await EmployeeService.getEmployee(id);
@@ -57,6 +59,7 @@ router.post('/employees', async (req: Request, res: Response) => {
 });
 
 router.put('/employees/:id', async (req: Request, res: Response) => {
+
   const id = req.params.id;
   const updateParameters = req.body;
   try {
@@ -68,6 +71,7 @@ router.put('/employees/:id', async (req: Request, res: Response) => {
 });
 
 router.delete('/employees/:id', async (req: Request, res: Response) => {
+
   const id = req.params.id;
   try {
     await EmployeeService.deleteEmployee(id);

@@ -10,7 +10,7 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
 
-app.use('/employees/login', employeeController); 
+app.use('/employee/login', employeeController); 
 
 app.use(authenticateToken);
 
