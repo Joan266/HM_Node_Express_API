@@ -1,17 +1,16 @@
+import mongoose from 'mongoose';
 export interface EmployeeInterface {
-  id: string;
-  first_name: string;
-  last_name: string;
+  _id: mongoose.Types.ObjectId;
+  firstname: string;
+  lastname: string;
   email: string;
-  phone_number: string;
-  job_desk: string;
-  join_date: string;
-  status: boolean;
   password: string;
-  schedule: {
-    days: string;
-    hours: string;
-  };
+  status?: boolean;
+  phonenumber: string;
+  days?: string;
+  hours?: string;
+  jobdesk?: string;
+  joindate: Date;
 }
 
-export type EmployeeProperties = 'id' | 'first_name' | 'last_name' | 'email' | 'phone_number' | 'job_desk' | 'join_date' | 'status' | 'password' | 'schedule';
+export type EmployeeProperties = '_id' | 'firstname' | 'lastname' | 'email' | 'phonenumber' | 'jobdesk' | 'joindate' | 'status' | 'password' | 'days' | 'hours';
