@@ -36,13 +36,9 @@ export class EmployeeService {
     }
   }
 
-  static async signup({ email, password, phonenumber, firstname, lastname, joindate }:
-    { email: string; password: string; phonenumber: string; firstname: string; lastname: string; joindate: Date }): Promise<EmployeeInterface> {
+  static async signup(newEmployee: { email: string; password: string; phonenumber: string; firstname: string; lastname: string; joindate: Date; }): Promise<EmployeeInterface> {
     try {
-      const employee = await Employee.signup({ email, password, phonenumber, firstname, lastname, joindate });
-      if (!employee) {
-        throw new Error('Error signing up');
-      }
+      const employee = await Employee.signup(newEmployee);
       return employee as unknown as EmployeeInterface;
     } catch (error) {
       throw new Error('Error signing up: ' + error);

@@ -4,7 +4,7 @@ import validator from 'validator';
 import { EmployeeInterface } from '../interfaces/employee';
 
 interface EmployeeModel extends Model<EmployeeInterface> {
-  signup(data: {
+  signup(newEmployee: {
     email: string;
     password: string;
     phonenumber: string;
@@ -19,7 +19,7 @@ interface EmployeeModel extends Model<EmployeeInterface> {
 }
 
 const employeeSchema = new Schema<EmployeeInterface, EmployeeModel>({
-  _id: { type: Schema.Types.ObjectId, default: () => new mongoose.Types.ObjectId() },
+  _id: { type: Schema.Types.ObjectId },
   firstname: {
     type: String,
     required: true,
@@ -61,7 +61,7 @@ const employeeSchema = new Schema<EmployeeInterface, EmployeeModel>({
   },
 });
 
-employeeSchema.statics.signup = async function (data: {
+employeeSchema.statics.signup = async function (newEmployee: {
   email: string;
   password: string;
   phonenumber: string;
@@ -69,7 +69,7 @@ employeeSchema.statics.signup = async function (data: {
   lastname: string;
   joindate: Date;
 }): Promise<EmployeeInterface> {
-  const { email, password, phonenumber, firstname, lastname, joindate } = data;
+  const { email, password, phonenumber, firstname, lastname, joindate } = newEmployee;
 
   if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
     throw new Error('All fields must be filled');

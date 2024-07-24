@@ -1,11 +1,10 @@
 import express, { Request, Response } from 'express';
 import { EmployeeService } from '../services/employee';
-import { EmployeeInterface } from '../interfaces/employee';
 import { generateAccessToken } from '../utils/generateAccesToken';
 
 const router = express.Router();
 
-router.get('/employees', async (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
 
   try {
     const employees = await EmployeeService.getEmployeeList();
@@ -15,7 +14,7 @@ router.get('/employees', async (req: Request, res: Response) => {
   }
 });
 
-router.get('/employees/:id', async (req: Request, res: Response) => {
+router.get('/:id', async (req: Request, res: Response) => {
 
   const id = req.params.id;
   try {
@@ -26,7 +25,7 @@ router.get('/employees/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/employees/login', async (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -48,17 +47,18 @@ router.post('/employees/login', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/employees', async (req: Request, res: Response) => {
-  const newEmployee: EmployeeInterface = req.body;
+router.post('/', async (req: Request, res: Response) => {
+  const newEmployee = req.body;
   try {
     const createdEmployee = await EmployeeService.signup(newEmployee);
     res.status(201).json({ createdEmployee });
   } catch (error) {
-    res.status(400).json({ errorMessage: error });
+    console.log(error)
+    res.status(400).json(error);
   }
 });
 
-router.put('/employees/:id', async (req: Request, res: Response) => {
+router.put('/:id', async (req: Request, res: Response) => {
 
   const id = req.params.id;
   const updateParameters = req.body;
@@ -70,7 +70,7 @@ router.put('/employees/:id', async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/employees/:id', async (req: Request, res: Response) => {
+router.delete('/:id', async (req: Request, res: Response) => {
 
   const id = req.params.id;
   try {
