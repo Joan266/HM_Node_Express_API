@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { EmployeeService } from '../services/employee';
+import { UserService } from '../services/user';
 import { generateAccessToken } from '../utils/generateAccesToken';
 
 const router = express.Router();
@@ -7,8 +7,8 @@ const router = express.Router();
 router.get('/', async (req: Request, res: Response) => {
 
   try {
-    const employees = await EmployeeService.getEmployeeList();
-    res.json({ employees });
+    const users = await UserService.getUserList();
+    res.json({ users });
   } catch (error) {
     res.status(500).json({ errorMessage: error });
   }
@@ -18,8 +18,8 @@ router.get('/:id', async (req: Request, res: Response) => {
 
   const id = req.params.id;
   try {
-    const employee = await EmployeeService.getEmployee(id);
-    res.json({ employee });
+    const user = await UserService.getUser(id);
+    res.json({ user });
   } catch (error) {
     res.status(404).json({ errorMessage: error });
   }
@@ -32,13 +32,13 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    const employee = await EmployeeService.login(email, password);
-    if (!employee) {
+    const user = await UserService.login(email, password);
+    if (!user) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = generateAccessToken(employee.password);
-    return res.json({ ...employee, token });
+    const token = generateAccessToken(user.password);
+    return res.json({ ...user, token });
   } catch (error) {
     res.status(400).json({
       error: 'Bad Request',
@@ -48,10 +48,10 @@ router.post('/login', async (req: Request, res: Response) => {
 });
 
 router.post('/', async (req: Request, res: Response) => {
-  const newEmployee = req.body;
+  const newuser = req.body;
   try {
-    const createdEmployee = await EmployeeService.signup(newEmployee);
-    res.status(201).json({ createdEmployee });
+    const createduser = await UserService.signup(newuser);
+    res.status(201).json({ createduser });
   } catch (error) {
     console.log(error)
     res.status(400).json(error);
@@ -63,8 +63,8 @@ router.put('/:id', async (req: Request, res: Response) => {
   const id = req.params.id;
   const updateParameters = req.body;
   try {
-    const updatedEmployee = await EmployeeService.updateEmployee(id, updateParameters);
-    res.json({ updatedEmployee });
+    const updateduser = await UserService.updateuser(id, updateParameters);
+    res.json({ updateduser });
   } catch (error) {
     res.status(404).json({ errorMessage: error });
   }
@@ -74,8 +74,8 @@ router.delete('/:id', async (req: Request, res: Response) => {
 
   const id = req.params.id;
   try {
-    await EmployeeService.deleteEmployee(id);
-    res.json({ message: `Employee with id ${id} deleted` });
+    await UserService.deleteuser(id);
+    res.json({ message: `user with id ${id} deleted` });
   } catch (error) {
     res.status(404).json({ errorMessage: error });
   }

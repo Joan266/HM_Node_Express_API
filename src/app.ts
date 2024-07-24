@@ -1,7 +1,7 @@
 import express, { Express, Request, Response } from 'express';
 import { authenticateToken } from './middleware/auth';
 
-import employeeController from './controllers/employee'; 
+import userController from './controllers/user'; 
 
 export const app: Express = express();
 
@@ -10,9 +10,9 @@ app.set('port', process.env.PORT || 3000);
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('API Miranda\nRoutes: /rooms, /bookings, /employees, /reviews');
+  res.send('API Miranda\nRoutes: /rooms, /bookings, /users, /reviews');
 });
 
-app.use('/employee', employeeController); 
+app.use('/user', userController); 
 
 export default app;

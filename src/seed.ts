@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import Employee from "./models/employee";
+import Employee from "./models/user";
 import faker from 'faker';
 import dotenv from 'dotenv';
 
