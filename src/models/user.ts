@@ -1,9 +1,9 @@
 import mongoose, { Model, Schema, model } from 'mongoose';
 import bcrypt from 'bcrypt';
 import validator from 'validator';
-import { EmployeeInterface } from '../interfaces/employee';
+import { UserInterface } from '../interfaces/user';
 
-interface EmployeeModel extends Model<EmployeeInterface> {
+interface UserModel extends Model<UserInterface> {
   signup(newEmployee: {
     email: string;
     password: string;
@@ -11,14 +11,18 @@ interface EmployeeModel extends Model<EmployeeInterface> {
     firstname: string;
     lastname: string;
     joindate: Date;
-  }): Promise<EmployeeInterface>;
+    status?: boolean;
+    days?: string;
+    hours?: string;
+    jobdesk?: string;
+  }): Promise<UserInterface>;
   login(data: {
     credentials: string;
     password: string;
-  }): Promise<EmployeeInterface>;
+  }): Promise<UserInterface>;
 }
 
-const employeeSchema = new Schema<EmployeeInterface, EmployeeModel>({
+const userSchema = new Schema<UserInterface, UserModel>({
   _id: { type: Schema.Types.ObjectId },
   firstname: {
     type: String,
@@ -61,15 +65,19 @@ const employeeSchema = new Schema<EmployeeInterface, EmployeeModel>({
   },
 });
 
-employeeSchema.statics.signup = async function (newEmployee: {
+userSchema.statics.signup = async function (newUser: {
   email: string;
   password: string;
   phonenumber: string;
   firstname: string;
   lastname: string;
   joindate: Date;
-}): Promise<EmployeeInterface> {
-  const { email, password, phonenumber, firstname, lastname, joindate } = newEmployee;
+  status?: boolean;
+  days?: string;
+  hours?: string;
+  jobdesk?: string;
+}): Promise<UserInterface> {
+  const { email, password, phonenumber, firstname, lastname, joindate, ...rest } = newUser;
 
   if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
     throw new Error('All fields must be filled');
@@ -84,51 +92,52 @@ employeeSchema.statics.signup = async function (newEmployee: {
     throw new Error('Phone number not valid');
   }
 
-  const existingEmployee = await this.findOne({ $or: [{ email }, { phonenumber }] });
+  const existingUser = await this.findOne({ $or: [{ email }, { phonenumber }] });
 
-  if (existingEmployee) {
+  if (existingUser) {
     throw new Error('Credentials already in use');
   }
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
 
-  const employee = await this.create({
+  const user = await this.create({
     _id: new mongoose.Types.ObjectId(),
     email,
     password: hash,
     phonenumber,
     firstname,
     lastname,
-    joindate
+    joindate,
+    ...rest,
   });
 
-  return employee;
+  return user;
 };
 
-employeeSchema.statics.login = async function ({ credentials, password }) {
+userSchema.statics.login = async function ({ credentials, password }) {
   if (!credentials || !password) {
     throw Error('All fields must be filled');
   }
 
   const isEmail = validator.isEmail(credentials);
 
-  let employee = await this.findOne({
+  let user = await this.findOne({
     [isEmail ? 'email' : 'phonenumber']: credentials
   });
 
-  if (!employee) {
+  if (!user) {
     throw Error('Incorrect credentials');
   }
-  const match = await bcrypt.compare(password, employee.password);
+  const match = await bcrypt.compare(password, user.password);
 
   if (!match) {
     throw Error('Incorrect credentials');
   }
 
-  return employee;
+  return user;
 };
 
-const Employee = model<EmployeeInterface, EmployeeModel>('Employee', employeeSchema);
+const User = model<UserInterface, UserModel>('User', userSchema);
 
-export default Employee;
+export default User;

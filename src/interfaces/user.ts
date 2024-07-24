@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-export interface EmployeeInterface {
+
+export interface UserInterface {
   _id: mongoose.Types.ObjectId;
   firstname: string;
   lastname: string;
@@ -13,4 +14,4 @@ export interface EmployeeInterface {
   joindate: Date;
 }
 
-export type EmployeeProperties = '_id' | 'firstname' | 'lastname' | 'email' | 'phonenumber' | 'jobdesk' | 'joindate' | 'status' | 'password' | 'days' | 'hours';
+export type UserProperties = '_id' | 'firstname' | 'lastname' | 'email' | 'phonenumber' | 'jobdesk' | 'joindate' | 'status' | 'password' | 'days' | 'hours';

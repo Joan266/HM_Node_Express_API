@@ -1,5 +1,5 @@
 import { describe, it, expect } from '@jest/globals';
-import { EmployeeService } from './services/employee';
+import { EmployeeService } from './services/user';
 
 import request from 'supertest';
 import { app } from './app'; 
