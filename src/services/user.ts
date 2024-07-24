@@ -1,4 +1,6 @@
 import { UserInterface } from '../interfaces/user';
+import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 import User from '../models/user';
 
 export class UserService {
@@ -24,32 +26,58 @@ export class UserService {
     }
   }
 
-  static async login(credentials: string, password: string): Promise<UserInterface> {
-    try {
-      const user = await User.login({ credentials, password });
-      if (!user) {
-        throw new Error('Cannot find user or password is incorrect');
-      }
-      return user as unknown as UserInterface;
-    } catch (error) {
-      throw new Error('Error logging in: ' + error);
+  static async login(email: string, password: string): Promise<UserInterface> {
+
+
+    let user = await User.findOne({ 'email': email });
+
+    if (!user) {
+      throw Error('Incorrect credentials');
     }
-  }
+    const match = await bcrypt.compare(password, user.password);
+
+    if (!match) {
+      throw Error('Incorrect credentials');
+    }
+
+    return user;
+  };
+
 
   static async signup(newuser: {
-    email: string; password: string; phonenumber: string; 
-    firstname: string; lastname: string; joindate: Date; 
+    email: string; password: string; phonenumber: string;
+    firstname: string; lastname: string; joindate: Date;
     status?: boolean;
     days?: string;
     hours?: string;
     jobdesk?: string;
   }): Promise<UserInterface> {
-    try {
-      const user = await User.signup(newuser);
-      return user as unknown as UserInterface;
-    } catch (error) {
-      throw new Error('Error signing up: ' + error);
+    const { email, password, phonenumber, firstname, lastname, joindate, ...rest } = newuser;
+
+    if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
+      throw new Error('All fields must be filled');
     }
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      throw new Error('email already in use');
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    const user = await User.create({
+      _id: new mongoose.Types.ObjectId(),
+      email,
+      password: hash,
+      phonenumber,
+      firstname,
+      lastname,
+      joindate,
+      ...rest,
+    });
+    return user;
   }
 
   static async updateuser(id: string, updateParameters: Partial<UserInterface>): Promise<UserInterface> {
