@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import Employee from "./models/user";
-import faker from 'faker';
+import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -68,19 +68,18 @@ interface FakeEmployee {
 
 const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
   const fakeEmployees: FakeEmployee[] = [];
-
   for (let i = 0; i < EMPLOYEES_NUM; i++) {
     const fakeEmployee: FakeEmployee = {
-      phonenumber: faker.phone.phoneNumber(),
       email: faker.internet.email(),
-      password: faker.internet.password(),
+      phonenumber: faker.string.numeric({length:9}),
+      password: faker.internet.password() + "?5A!@",
       bio: jobDesk[Math.floor(Math.random() * jobDesk.length)],
-      joindate: faker.date.between('1930-01-01', '2015-01-01'),
+      joindate: faker.date.between({from:'1990-01-01', to:'2024-01-01'}),
       days: days[Math.floor(Math.random() * days.length)],
       hours: hours[Math.floor(Math.random() * hours.length)],
       status: Math.random() >= 0.5,
-      firstname: faker.name.firstName(),
-      lastname: faker.name.lastName(),
+      firstname: faker.person.firstName(),
+      lastname: faker.person.lastName(),
     };
 
     fakeEmployees.push(fakeEmployee);
@@ -93,12 +92,7 @@ const createEmployees = async (EMPLOYEES_NUM: number): Promise<void> => {
   const fakeEmployeesData = generateFakeEmployees(EMPLOYEES_NUM);
 
   for (let i = 0; i < EMPLOYEES_NUM; i++) {
-    const { password, email, phonenumber, firstname, lastname, joindate, ...rest } = fakeEmployeesData[i];
-
-    const newEmployee = await Employee.signup({ email, phonenumber, firstname, lastname, joindate, password: "1qa2ws3ed!Q" });
-
-    // Update employee with data
-    await Employee.findByIdAndUpdate(newEmployee._id, { ...rest });
+    await Employee.signup(fakeEmployeesData[i]);
   }
 };
 
@@ -107,7 +101,7 @@ const seedEmployees = async (): Promise<void> => {
     await Employee.deleteMany({});
     console.log('All existing employees deleted.');
 
-    const EMPLOYEES_NUM = 30;
+    const EMPLOYEES_NUM = 35;
 
     console.log('Creating employees...');
     await createEmployees(EMPLOYEES_NUM);
