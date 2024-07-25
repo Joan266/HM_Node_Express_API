@@ -52,9 +52,8 @@ router.post('/', async (req: Request, res: Response) => {
   try {
     const createduser = await UserService.signup(newuser);
     res.status(201).json({ createduser });
-  } catch (error) {
-    console.log(error)
-    res.status(400).json(error);
+  } catch (error:any) {
+    res.status(400).json({ message: error.message });
   }
 });
 
