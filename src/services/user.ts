@@ -1,57 +1,56 @@
 import { UserInterface } from '../interfaces/user';
-import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
 
 export class UserService {
 
-  static async getUserList(): Promise<UserInterface[]> {
-    try {
-      const userData = await User.find().select('-password');
-      return userData as unknown as UserInterface[];
-    } catch (error) {
-      throw new Error('Error retrieving user list: ' + error);
-    }
+  static async getUserList() {
+    const userData = await User.find().select('-password');
+    return userData;
   }
 
-  static async getUser(id: string): Promise<UserInterface> {
-    try {
-      const user = await User.findById(id).select('-password');
-      if (!user) {
-        throw new Error('Cannot find user');
-      }
-      return user as unknown as UserInterface;
-    } catch (error) {
-      throw new Error('Error retrieving user: ' + error);
-    }
-  }
-
-  static async login(email: string, password: string): Promise<UserInterface> {
-
-
-    let user = await User.findOne({ email: email });
-
+  static async getUser(id: string) {
+    const user = await User.findById(id).select('-password');
     if (!user) {
-      throw Error('Incorrect credentials');
+      throw new Error('Cannot find user');
     }
-    const match = await bcrypt.compare(password, user.password);
+    return user;
+  }
+
+  static async login(email: string, password: string) {
+    const user = await User.findOne({ email });
+
+    if (!user || !user.password) {
+      throw new Error('Incorrect credentials');
+    }
+
+    const match = bcrypt.compare(password, user.password);
 
     if (!match) {
-      throw Error('Incorrect credentials');
+      throw new Error('Incorrect credentials');
     }
 
-    return user;
-  };
+    const { _id, firstname, lastname, phonenumber, joindate } = user;
+
+    return {
+      _id,
+      firstname,
+      lastname,
+      email,
+      phonenumber,
+      joindate
+    };
+  }
 
 
-  static async signup(newuser: {
+  static async newuser(newuser: {
     email: string; password: string; phonenumber: string;
     firstname: string; lastname: string; joindate: Date;
     status?: boolean;
     days?: string;
     hours?: string;
     jobdesk?: string;
-  }): Promise<UserInterface> {
+  }) {
     const { email, password, phonenumber, firstname, lastname, joindate, ...rest } = newuser;
 
     if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
@@ -68,7 +67,6 @@ export class UserService {
     const hash = await bcrypt.hash(password, salt);
 
     const user = await User.create({
-      _id: new mongoose.Types.ObjectId(),
       email,
       password: hash,
       phonenumber,
@@ -80,27 +78,19 @@ export class UserService {
     return user;
   }
 
-  static async updateuser(id: string, updateParameters: Partial<UserInterface>): Promise<UserInterface> {
-    try {
-      const updateduser = await User.findByIdAndUpdate(id, updateParameters, { new: true }).select('-password');
-      if (!updateduser) {
-        throw new Error('Cannot find user to update');
-      }
-      return updateduser as unknown as UserInterface;
-    } catch (error) {
-      throw new Error('Error updating user: ' + error);
+  static async updateuser(id: string, updateParameters: Partial<UserInterface>) {
+    const updateduser = await User.findByIdAndUpdate(id, updateParameters, { new: true }).select('-password');
+    if (!updateduser) {
+      throw new Error('Cannot find user to update');
     }
+    return updateduser as unknown as UserInterface;
   }
 
-  static async deleteuser(id: string): Promise<void> {
-    try {
-      const deleteduser = await User.findByIdAndDelete(id);
-      if (!deleteduser) {
-        throw new Error('Cannot find user to delete');
-      }
-      console.log(`user with id ${id} deleted`);
-    } catch (error) {
-      throw new Error('Error deleting user: ' + error);
+  static async deleteuser(id: string) {
+    const deleteduser = await User.findByIdAndDelete(id);
+    if (!deleteduser) {
+      throw new Error('Cannot find user to delete');
     }
+    console.log(`user with id ${id} deleted`);
   }
 }

@@ -1,6 +1,5 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import { authenticateToken } from './middleware/auth';
-
 import userController from './controllers/user';
 import authController from './controllers/auth';
 
@@ -15,12 +14,26 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 app.use('/auth', authController);
+
 app.use(authenticateToken);
+
 app.use('/user', userController);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+class APIError extends Error {
+  status: number;
+  safe: boolean;
+
+  constructor(message: string, status = 500, safe = false) {
+    super(message);
+    this.status = status;
+    this.safe = safe;
+  }
+}
+
+app.use((err: APIError, req: Request, res: Response, next: NextFunction) => {
   console.error(err.stack);
-  res.status(500).json({ message: err.message });
+
+  res.status(err.status || 500).json({ message: err.safe ? err.message : 'Internal Server Error' });
 });
 
 export default app;
