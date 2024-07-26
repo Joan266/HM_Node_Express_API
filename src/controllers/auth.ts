@@ -1,10 +1,10 @@
-import express, { Request, Response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import { UserService } from '../services/user';
 import { generateAccessToken } from '../utils/generateAccesToken';
 
 const router = express.Router();
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -16,23 +16,20 @@ router.post('/login', async (req: Request, res: Response) => {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
-    const token = generateAccessToken(user.password);
+    const token = generateAccessToken(password);
     return res.json({ user, token });
-  } catch (error) {
-    res.status(400).json({
-      error: 'Bad Request',
-      message: error,
-    });
+  } catch (e) {
+    next(e);
   }
 });
 
-router.post('/signup', async (req: Request, res: Response) => {
-  const newuser = req.body;
+router.post('/newuser', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const createduser = await UserService.signup(newuser);
-    res.json({ createduser });
-  } catch (error: any) {
-    res.status(400).json({ message: error.message });
+    const newuser = req.body;
+    const createduser = await UserService.newuser(newuser);
+    return res.json({ createduser });
+  } catch (e) {
+    next(e);
   }
 });
 
