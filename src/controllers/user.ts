@@ -1,6 +1,5 @@
 import express, { Request, Response } from 'express';
 import { UserService } from '../services/user';
-import { generateAccessToken } from '../utils/generateAccesToken';
 
 const router = express.Router();
 

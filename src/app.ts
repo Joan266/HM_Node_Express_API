@@ -2,7 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import { authenticateToken } from './middleware/auth';
 
 import userController from './controllers/user';
-import loginController from './controllers/login';
+import authController from './controllers/auth';
 
 export const app: Express = express();
 
@@ -14,7 +14,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('API Miranda\nRoutes: /rooms, /bookings, /users, /reviews, /login');
 });
 
-app.use('/login', loginController);
+app.use('/auth', authController);
 app.use(authenticateToken);
 app.use('/user', userController);
 

@@ -17,7 +17,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     const token = generateAccessToken(user.password);
-    return res.json({ ...user, token });
+    return res.json({ user, token });
   } catch (error) {
     res.status(400).json({
       error: 'Bad Request',
@@ -26,12 +26,12 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/', async (req: Request, res: Response) => {
+router.post('/signup', async (req: Request, res: Response) => {
   const newuser = req.body;
   try {
     const createduser = await UserService.signup(newuser);
-    res.status(201).json({ createduser });
-  } catch (error:any) {
+    res.json({ createduser });
+  } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
 });

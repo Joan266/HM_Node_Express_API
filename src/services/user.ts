@@ -7,7 +7,7 @@ export class UserService {
 
   static async getUserList(): Promise<UserInterface[]> {
     try {
-      const userData = await User.find();
+      const userData = await User.find().select('-password');
       return userData as unknown as UserInterface[];
     } catch (error) {
       throw new Error('Error retrieving user list: ' + error);
@@ -16,7 +16,7 @@ export class UserService {
 
   static async getUser(id: string): Promise<UserInterface> {
     try {
-      const user = await User.findById(id);
+      const user = await User.findById(id).select('-password');
       if (!user) {
         throw new Error('Cannot find user');
       }
@@ -29,7 +29,7 @@ export class UserService {
   static async login(email: string, password: string): Promise<UserInterface> {
 
 
-    let user = await User.findOne({ 'email': email });
+    let user = await User.findOne({ email: email });
 
     if (!user) {
       throw Error('Incorrect credentials');
@@ -82,7 +82,7 @@ export class UserService {
 
   static async updateuser(id: string, updateParameters: Partial<UserInterface>): Promise<UserInterface> {
     try {
-      const updateduser = await User.findByIdAndUpdate(id, updateParameters, { new: true });
+      const updateduser = await User.findByIdAndUpdate(id, updateParameters, { new: true }).select('-password');
       if (!updateduser) {
         throw new Error('Cannot find user to update');
       }
