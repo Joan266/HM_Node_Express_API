@@ -1,12 +1,14 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+
 import { authenticateToken } from './middleware/auth';
 import userController from './controllers/user';
 import authController from './controllers/auth';
-
 export const app: Express = express();
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 5000);
 
+app.use(cors())
 app.use(express.json());
 
 app.get('/', (req: Request, res: Response) => {
