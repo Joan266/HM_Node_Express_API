@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
-import Employee from "./models/user";
+import { UserService } from "./services/user";
+import User from "./models/user"
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 
@@ -57,7 +58,7 @@ interface FakeEmployee {
   phonenumber: string;
   email: string;
   password: string;
-  bio: string;
+  jobdesk: string;
   joindate: Date;
   days: string;
   hours: string;
@@ -71,10 +72,10 @@ const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
   for (let i = 0; i < EMPLOYEES_NUM; i++) {
     const fakeEmployee: FakeEmployee = {
       email: faker.internet.email(),
-      phonenumber: faker.string.numeric({length:9}),
+      phonenumber: faker.string.numeric({ length: 9 }),
       password: faker.internet.password() + "?5A!@",
-      bio: jobDesk[Math.floor(Math.random() * jobDesk.length)],
-      joindate: faker.date.between({from:'1990-01-01', to:'2024-01-01'}),
+      jobdesk: jobDesk[Math.floor(Math.random() * jobDesk.length)],
+      joindate: faker.date.between({ from: '1990-01-01', to: '2024-01-01' }),
       days: days[Math.floor(Math.random() * days.length)],
       hours: hours[Math.floor(Math.random() * hours.length)],
       status: Math.random() >= 0.5,
@@ -90,15 +91,27 @@ const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
 
 const createEmployees = async (EMPLOYEES_NUM: number): Promise<void> => {
   const fakeEmployeesData = generateFakeEmployees(EMPLOYEES_NUM);
-
+  const fakeDemoUserData = {
+    firstname: "John",
+    lastname: "Doe",
+    email: "john.doe@example.com",
+    phonenumber: "645765609",
+    password: "securepassword?5A!@", 
+    joindate: new Date("2023-01-01"),
+    status: true,
+    days: "Monday to Friday",
+    hours: "9 AM to 5 PM",
+    jobdesk: "Software Developer"
+  };
+  await UserService.newuser(fakeDemoUserData);
   for (let i = 0; i < EMPLOYEES_NUM; i++) {
-    await Employee.signup(fakeEmployeesData[i]);
+    await UserService.newuser(fakeEmployeesData[i]);
   }
 };
 
 const seedEmployees = async (): Promise<void> => {
   try {
-    await Employee.deleteMany({});
+    await User.deleteMany({});
     console.log('All existing employees deleted.');
 
     const EMPLOYEES_NUM = 35;

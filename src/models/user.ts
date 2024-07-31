@@ -3,7 +3,6 @@ import validator from 'validator';
 import { UserInterface } from '../interfaces/user';
 
 const userSchema = new Schema<UserInterface>({
-  _id: { type: Schema.Types.ObjectId },
   firstname: { type: String, required: true },
   lastname: { type: String, required: true },
   email: {
