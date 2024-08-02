@@ -1,6 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 
+import "dotenv/config";
 import { authenticateToken } from './middleware/auth';
 import userController from './controllers/user';
 import authController from './controllers/auth';

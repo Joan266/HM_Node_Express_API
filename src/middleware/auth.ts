@@ -1,18 +1,20 @@
-import jwt, { JwtPayload } from 'jsonwebtoken';
-import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 
-dotenv.config();
+export const authenticateToken = (req: Request, res: Response, next: NextFunction) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
-interface AuthenticatedRequest extends Request {
-  user?: string | JwtPayload;
-}
+    if (!token) {
+        return res.status(401).json({ error: 'Token not provided' });
+    }
 
-export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (token == null) return res.sendStatus(401);
-  jwt.verify(token, process.env.TOKEN_SECRET as string);
-  next();
+    jwt.verify(token, process.env.TOKEN_SECRET as string, (err) => {
+        if (err) {
+            console.error('Token verification error:', err);
+            return res.status(403).json({ error: 'Token is invalid', details: err.message });
+        }
+        console.log("Succeded")
+        next();
+    });
 };
