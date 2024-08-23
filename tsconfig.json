@@ -9,6 +9,6 @@
     "rootDir": "./src",
     "typeRoots": ["./node_modules/@types", "./types"]
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/utils"],
   "exclude": ["node_modules"]
 }

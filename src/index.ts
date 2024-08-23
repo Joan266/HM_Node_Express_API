@@ -1,5 +1,5 @@
 import { app } from './app';
-import mongoose from 'mongoose';
+import mysql from 'mysql2/promise';
 
 const start = async () => {
   if (!process.env.MONGODB_URI) {
@@ -7,12 +7,13 @@ const start = async () => {
     process.exit(1);
   }
 
-  mongoose.connection.once('open', () => {
-    console.log('Successfully connected to MongoDB');
-  });
 
   try {
-    await mongoose.connect(process.env.MONGODB_URI);
+    await mysql.createConnection({
+      host: 'localhost',
+      user: 'root',
+      database: 'MirandaDB',
+    })
 
     app.listen(app.get('port'), () => {
       console.log(`Server started on port ${app.get('port')}`);

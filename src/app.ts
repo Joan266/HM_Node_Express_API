@@ -12,6 +12,13 @@ app.set('port', process.env.PORT || 5000);
 app.use(cors())
 app.use(express.json());
 
+export const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME
+});
+
 app.get('/', (req: Request, res: Response) => {
   res.send('API Miranda\nRoutes: /rooms, /bookings, /users, /reviews, /login');
 });
@@ -22,7 +29,7 @@ app.use(authenticateToken);
 
 app.use('/user', userController);
 
-class APIError extends Error {
+ export class APIError extends Error {
   status: number;
   safe: boolean;
 
