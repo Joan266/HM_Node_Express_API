@@ -20,14 +20,5 @@ router.post('/login', async (req: Request, res: Response, next: NextFunction) =>
   }
 });
 
-router.post('/newuser', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const newuser = req.body;
-    const createduser = await UserService.newuser(newuser);
-    return res.json({ createduser });
-  } catch (e) {
-    next(e);
-  }
-});
 
 export default router;

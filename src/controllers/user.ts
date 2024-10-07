@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await UserService.getUserList();
+    const users = await UserService.all();
     res.json({ users });
   } catch (e) {
     next(e);
@@ -15,8 +15,18 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = await UserService.getUser(id);
+    const user = await UserService.get(id);
     res.json({ user });
+  } catch (e) {
+    next(e);
+  }
+});
+
+router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const newUser = req.body;
+    const createduser = await UserService.create(newUser);
+    return res.json({ createduser });
   } catch (e) {
     next(e);
   }
@@ -25,9 +35,9 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const updateParameters = req.body;
-    const updateduser = await UserService.updateuser(id, updateParameters);
-    res.json({ updateduser });
+    const user = req.body;
+    const updatedUser = await UserService.update(id, user);
+    res.json({ updatedUser });
   } catch (e) {
     next(e);
   }
@@ -36,7 +46,7 @@ router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    await UserService.deleteuser(id);
+    await UserService.delete(id);
     res.json({ message: `user with id ${id} deleted` });
   } catch (e) {
     next(e);

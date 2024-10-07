@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { UserService } from "./services/user";
-import User from "./models/user"
+import User from "./models/user";
 import { faker } from '@faker-js/faker';
 import dotenv from 'dotenv';
 
@@ -36,35 +36,17 @@ const jobDesk: string[] = [
   "Provide concierge services and local information"
 ];
 
-const days: string[] = [
-  "Monday, Wednesday, Friday",
-  "Tuesday, Thursday",
-  "Saturday, Sunday",
-  "Monday to Friday",
-  "Weekends",
-  "Monday, Tuesday, Thursday"
-];
-
-const hours: string[] = [
-  "9:00 AM - 5:00 PM",
-  "10:00 AM - 6:00 PM",
-  "8:00 AM - 4:00 PM",
-  "11:00 AM - 7:00 PM",
-  "7:00 AM - 3:00 PM",
-  "12:00 PM - 8:00 PM"
-];
-
 interface FakeEmployee {
   phonenumber: string;
   email: string;
   password: string;
   jobdesk: string;
   joindate: Date;
-  days: string;
-  hours: string;
   status: boolean;
   firstname: string;
   lastname: string;
+  description: string; 
+  photoUrl: string; 
 }
 
 const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
@@ -76,11 +58,11 @@ const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
       password: faker.internet.password() + "?5A!@",
       jobdesk: jobDesk[Math.floor(Math.random() * jobDesk.length)],
       joindate: faker.date.between({ from: '1990-01-01', to: '2024-01-01' }),
-      days: days[Math.floor(Math.random() * days.length)],
-      hours: hours[Math.floor(Math.random() * hours.length)],
       status: Math.random() >= 0.5,
       firstname: faker.person.firstName(),
       lastname: faker.person.lastName(),
+      description: faker.lorem.sentence(), // Generate a random description
+      photoUrl: "" // Set photoUrl to empty string
     };
 
     fakeEmployees.push(fakeEmployee);
@@ -99,13 +81,14 @@ const createEmployees = async (EMPLOYEES_NUM: number): Promise<void> => {
     password: "securepassword?5A!@", 
     joindate: new Date("2023-01-01"),
     status: true,
-    days: "Monday to Friday",
-    hours: "9 AM to 5 PM",
-    jobdesk: "Software Developer"
+    jobdesk: "Software Developer",
+    description: faker.lorem.sentence(), 
+    photoUrl: "" 
   };
-  await UserService.newuser(fakeDemoUserData);
+  
+  await UserService.create(fakeDemoUserData);
   for (let i = 0; i < EMPLOYEES_NUM; i++) {
-    await UserService.newuser(fakeEmployeesData[i]);
+    await UserService.create(fakeEmployeesData[i]);
   }
 };
 

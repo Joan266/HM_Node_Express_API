@@ -25,9 +25,9 @@ const userSchema = new Schema<UserInterface>({
       message: props => `${props.value} is not a valid phone number!`
     }
   },
-  days: { type: String },
-  hours: { type: String },
   jobdesk: { type: String },
+  description: {type:String},
+  photourl: { type:String },
   joindate: { type: Date, required: true },
 });
 
