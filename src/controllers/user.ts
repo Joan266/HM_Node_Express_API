@@ -16,7 +16,7 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     const user = await UserService.get(id);
-    res.json({ user });
+    res.json(user);
   } catch (e) {
     next(e);
   }
@@ -26,7 +26,7 @@ router.post('/create', async (req: Request, res: Response, next: NextFunction) =
   try {
     const newUser = req.body;
     const createduser = await UserService.create(newUser);
-    return res.json({ createduser });
+    return res.json(createduser);
   } catch (e) {
     next(e);
   }
@@ -37,7 +37,7 @@ router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
     const user = req.body;
     const updatedUser = await UserService.update(id, user);
-    res.json({ updatedUser });
+    res.json(updatedUser);
   } catch (e) {
     next(e);
   }
@@ -47,7 +47,7 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
   try {
     const id = req.params.id;
     await UserService.delete(id);
-    res.json({ message: `user with id ${id} deleted` });
+    res.json(id);
   } catch (e) {
     next(e);
   }

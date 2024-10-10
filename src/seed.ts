@@ -61,8 +61,8 @@ const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
       status: Math.random() >= 0.5,
       firstname: faker.person.firstName(),
       lastname: faker.person.lastName(),
-      description: faker.lorem.sentence(), // Generate a random description
-      photoUrl: "" // Set photoUrl to empty string
+      description: faker.lorem.sentence(),
+      photoUrl: "" 
     };
 
     fakeEmployees.push(fakeEmployee);
