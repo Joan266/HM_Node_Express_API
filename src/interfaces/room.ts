@@ -8,6 +8,7 @@ export interface RoomInterface {
   facilities?: string[];          
   rate: number;                   
   offer: number;                   
+  photourl?: string;                   
   status: 'available' | 'booked' | 'maintenance' | 'unavailable'; 
 }
 

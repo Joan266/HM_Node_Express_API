@@ -4,6 +4,7 @@ import cors from 'cors';
 import "dotenv/config";
 import { authenticateToken } from './middleware/auth';
 import userController from './controllers/user';
+import roomController from './controllers/room';
 import authController from './controllers/auth';
 
 export const app: Express = express();
@@ -20,6 +21,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', authController);
 app.use(authenticateToken);
 app.use('/user', userController);
+app.use('/room', roomController);
 
 export class APIError extends Error {
   status: number;

@@ -35,7 +35,10 @@ const roomSchema = new Schema<RoomInterface>({
     enum: ['available', 'booked', 'maintenance', 'unavailable'], 
     default: 'unavailable',
     required: true 
-  }
+  },
+  photourl:{
+    type:String,
+  },
 });
 
 const Room = model<RoomInterface>('Room', roomSchema);

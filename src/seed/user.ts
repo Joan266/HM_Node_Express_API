@@ -1,27 +1,6 @@
-import mongoose from "mongoose";
-import { UserService } from "./services/user";
-import User from "./models/user";
+import { UserService } from "../services/user";
+import User from "../models/user";
 import { faker } from '@faker-js/faker';
-import dotenv from 'dotenv';
-
-dotenv.config();
-
-const start = async (): Promise<void> => {
-  if (!process.env.MONGODB_URI) {
-    console.error("MONGODB_URI is not defined in the .env file");
-    process.exit(1);
-  }
-
-  try {
-    await mongoose.connect(process.env.MONGODB_URI);
-    console.log("Connected to MongoDB");
-  } catch (error) {
-    console.error('Failed to connect to MongoDB', error);
-    process.exit(1);
-  }
-};
-
-start();
 
 const jobDesk: string[] = [
   "Handle guest complaints and ensure satisfactory resolution",
@@ -92,7 +71,7 @@ const createEmployees = async (EMPLOYEES_NUM: number): Promise<void> => {
   }
 };
 
-const seedEmployees = async (): Promise<void> => {
+export const seedEmployees = async (): Promise<void> => {
   try {
     await User.deleteMany({});
     console.log('All existing employees deleted.');
@@ -105,11 +84,6 @@ const seedEmployees = async (): Promise<void> => {
 
     console.log('Seed data successfully added!');
   } catch (error) {
-    console.error('Error seeding data:', error);
-  } finally {
-    mongoose.disconnect();
-    console.log('Disconnected from MongoDB.');
-  }
+    console.error('Error seeding employees:', error);
+  } 
 };
-
-seedEmployees();
