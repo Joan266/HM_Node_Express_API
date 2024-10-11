@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import dotenv from 'dotenv';
 import { seedEmployees } from "./user";
 import { seedRooms } from "./room";
+import { seedBookings } from "./booking";
 dotenv.config();
 
 const start = async (): Promise<void> => {
@@ -23,6 +24,7 @@ start();
 
 const seed = async (): Promise<void> => {
   try {
+    await seedBookings();
     await seedRooms();
     await seedEmployees();
   } catch (error) {

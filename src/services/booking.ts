@@ -23,8 +23,10 @@ export class BookingService {
     checkin: Date;
     checkout: Date;
     status: 'cancelled' | 'booked' | 'pending' | 'refund';
+    description?: string;
+    photourl?: string;
   }) {
-    const { firstname, lastname, orderdate, checkin, checkout, status } = newBooking;
+    const { firstname, lastname, orderdate, checkin, checkout, status, ...rest } = newBooking;
 
     if (!firstname || !lastname || !orderdate || !checkin || !checkout || !status) {
       throw new APIError('All required fields must be filled', 400, true);
@@ -38,6 +40,7 @@ export class BookingService {
         checkin,
         checkout,
         status,
+        ...rest
       });
 
       return booking;
