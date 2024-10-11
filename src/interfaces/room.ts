@@ -3,8 +3,7 @@ import mongoose from 'mongoose';
 export interface RoomInterface {
   _id?: mongoose.Types.ObjectId;  
   name: string;                 
-  bedtype: string;                 
-  code: string;                   
+  bedtype: string;                  
   facilities?: string[];          
   rate: number;                   
   offer: number;                   

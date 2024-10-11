@@ -31,7 +31,6 @@ const statuses = ['available', 'booked', 'maintenance', 'unavailable'] as const;
 interface FakeRoom {
   name: string;
   bedtype: string;
-  code: string;
   facilities: string[];
   rate: number;
   offer: number; 
@@ -44,7 +43,6 @@ const generateFakeRooms = (ROOMS_NUM: number): FakeRoom[] => {
     const fakeRoom: FakeRoom = {
       name: faker.commerce.productName(),
       bedtype: faker.helpers.arrayElement(bedTypes),
-      code: faker.string.numeric({ length: 5 }),
       facilities: faker.helpers.arrayElements(facilitiesEnum, { min: 2, max: 5 }),
       rate: faker.number.float({ min: 50, max: 500, multipleOf: 0.01 }),
       offer: faker.number.int({ min: 0, max: 50 }),

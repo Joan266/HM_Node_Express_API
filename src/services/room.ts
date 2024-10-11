@@ -19,15 +19,14 @@ export class RoomService {
   static async create(newRoom: {
     name: string;
     bedtype: string;
-    code: string;
     facilities?: string[]; 
     rate: number;
     offer: number;
     status: 'available' | 'booked' | 'maintenance' | 'unavailable'; 
   }) {
-    const { name, bedtype, code, rate, offer, facilities, status } = newRoom;
+    const { name, bedtype,  rate, offer, facilities, status } = newRoom;
 
-    if (!name || !bedtype || !code || rate === undefined || offer === undefined || !status) {
+    if (!name || !bedtype ||  rate === undefined || offer === undefined || !status) {
       throw new APIError('All required fields must be filled', 400, true);
     }
 
@@ -35,7 +34,6 @@ export class RoomService {
       const room = await Room.create({
         name,
         bedtype,
-        code,
         facilities,
         rate,
         offer,

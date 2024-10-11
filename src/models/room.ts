@@ -17,7 +17,6 @@ const FACILITIES_OPTIONS = [
 const roomSchema = new Schema<RoomInterface>({
   name: { type: String, required: true },
   bedtype: { type: String, required: true },
-  code: { type: String, required:true },
   facilities: {
     type: [String], 
     enum: FACILITIES_OPTIONS,  
