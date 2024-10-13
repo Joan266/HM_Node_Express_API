@@ -5,6 +5,8 @@ import "dotenv/config";
 import { authenticateToken } from './middleware/auth';
 import userController from './controllers/user';
 import roomController from './controllers/room';
+import bookingController from './controllers/booking';
+import reviewController from './controllers/review';
 import authController from './controllers/auth';
 
 export const app: Express = express();
@@ -22,6 +24,8 @@ app.use('/auth', authController);
 app.use(authenticateToken);
 app.use('/user', userController);
 app.use('/room', roomController);
+app.use('/booking', bookingController);
+app.use('/review', reviewController);
 
 export class APIError extends Error {
   status: number;
