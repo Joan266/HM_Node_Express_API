@@ -20,13 +20,13 @@ export class ReviewService {
     firstname: string;
     lastname: string;
     reviewdate: Date;
-    status: Boolean;
-    rate: Number;
+    status: boolean;
+    rate: number;
     comment?: string;
   }) {
     const { firstname, lastname, rate, reviewdate, comment, status } = newReview;
 
-    if (!firstname || !lastname || rate === undefined || !reviewdate || !status) {
+    if (!firstname || !lastname || !rate || !reviewdate || status === undefined) {
       throw new APIError('All required fields must be filled', 400, true);
     }
 

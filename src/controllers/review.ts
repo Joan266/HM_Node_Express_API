@@ -6,6 +6,7 @@ const router = express.Router();
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const reviews = await ReviewService.all();
+    console.log(reviews)
     res.json({ reviews });
   } catch (e) {
     next(e);
