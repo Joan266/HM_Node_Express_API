@@ -14,7 +14,6 @@ export const authenticateToken = (req: Request, res: Response, next: NextFunctio
             console.error('Token verification error:', err);
             return res.status(403).json({ error: 'Token is invalid', details: err.message });
         }
-        console.log("Succeded")
         next();
     });
 };

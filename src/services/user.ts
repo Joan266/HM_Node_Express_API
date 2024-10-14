@@ -1,18 +1,18 @@
 import { UserInterface } from '../interfaces/user';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
+import { APIError } from '../app';
 
 export class UserService {
-
-  static async getUserList() {
+  static async all() {
     const userData = await User.find().select('-password');
     return userData;
   }
 
-  static async getUser(id: string) {
+  static async get(id: string) {
     const user = await User.findById(id).select('-password');
     if (!user) {
-      throw new Error('Cannot find user');
+      throw new APIError('Cannot find user', 404, true);
     }
     return user;
   }
@@ -21,76 +21,74 @@ export class UserService {
     const user = await User.findOne({ email });
 
     if (!user || !user.password) {
-      throw new Error('Incorrect credentials');
+      throw new APIError('Incorrect credentials', 401, true);
     }
 
-    const match = bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
-      throw new Error('Incorrect credentials');
+      throw new APIError('Incorrect credentials', 401, true);
     }
 
-    const { _id, firstname, lastname, phonenumber, joindate } = user;
-
-    return {
-      _id,
-      firstname,
-      lastname,
-      email,
-      phonenumber,
-      joindate
-    };
-  }
-
-
-  static async newuser(newuser: {
-    email: string; password: string; phonenumber: string;
-    firstname: string; lastname: string; joindate: Date;
-    status?: boolean;
-    days?: string;
-    hours?: string;
-    jobdesk?: string;
-  }) {
-    const { email, password, phonenumber, firstname, lastname, joindate, ...rest } = newuser;
-
-    if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
-      throw new Error('All fields must be filled');
-    }
-
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      throw new Error('email already in use');
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
-    const user = await User.create({
-      email,
-      password: hash,
-      phonenumber,
-      firstname,
-      lastname,
-      joindate,
-      ...rest,
-    });
     return user;
   }
 
-  static async updateuser(id: string, updateParameters: Partial<UserInterface>) {
-    const updateduser = await User.findByIdAndUpdate(id, updateParameters, { new: true }).select('-password');
-    if (!updateduser) {
-      throw new Error('Cannot find user to update');
+  static async create(newUser: {
+    email: string;
+    password: string;
+    phonenumber: string;
+    firstname: string;
+    lastname: string;
+    joindate: Date;
+    status?: boolean;
+    description?: string;
+    photourl?: string;
+    jobdesk?: string;
+  }) {
+    const { email, password, phonenumber, firstname, lastname, joindate, ...rest } = newUser;
+
+    if (!email || !password || !phonenumber || !firstname || !lastname || !joindate) {
+      throw new APIError('All fields must be filled', 400, true);
     }
-    return updateduser as unknown as UserInterface;
+
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      throw new APIError('Email already in use', 409, true);
+    }
+
+    try {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+
+      const user = await User.create({
+        email,
+        password: hash,
+        phonenumber,
+        firstname,
+        lastname,
+        joindate,
+        ...rest,
+      });
+
+      return user;
+    } catch (err) {
+      throw new APIError('Error creating user', 500, false);
+    }
   }
 
-  static async deleteuser(id: string) {
-    const deleteduser = await User.findByIdAndDelete(id);
-    if (!deleteduser) {
-      throw new Error('Cannot find user to delete');
+  static async update(id: string, updateParameters: Partial<UserInterface>) {
+    const updatedUser = await User.findByIdAndUpdate(id, updateParameters, { new: true }).select('-password');
+    if (!updatedUser) {
+      throw new APIError('Cannot find user to update', 404, true);
     }
-    console.log(`user with id ${id} deleted`);
+    return updatedUser;
+  }
+
+  static async delete(id: string) {
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (!deletedUser) {
+      throw new APIError('Cannot find user to delete', 404, true);
+    }
+    console.log(`User with id ${id} deleted`);
   }
 }

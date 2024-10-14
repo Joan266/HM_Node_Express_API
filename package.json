@@ -7,7 +7,7 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "dev": "nodemon scr/index.ts",
-    "seed": "ts-node src/seed.ts",
+    "seed": "ts-node src/seed/seed.ts",
     "deploy": "npm run build && serverless deploy"
   },
   "dependencies": {

@@ -1,12 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { UserService } from '../services/user';
+import { ReviewService } from '../services/review';
 
 const router = express.Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await UserService.all();
-    res.json({ users });
+    const reviews = await ReviewService.all();
+    console.log(reviews)
+    res.json({ reviews });
   } catch (e) {
     next(e);
   }
@@ -15,8 +16,8 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = await UserService.get(id);
-    res.json(user);
+    const review = await ReviewService.get(id);
+    res.json(review);
   } catch (e) {
     next(e);
   }
@@ -24,9 +25,9 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newUser = req.body;
-    const createduser = await UserService.create(newUser);
-    return res.json(createduser);
+    const newReview = req.body;
+    const createdreview = await ReviewService.create(newReview);
+    return res.json(createdreview);
   } catch (e) {
     next(e);
   }
@@ -35,9 +36,9 @@ router.post('/create', async (req: Request, res: Response, next: NextFunction) =
 router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = req.body;
-    const updatedUser = await UserService.update(id, user);
-    res.json(updatedUser);
+    const review = req.body;
+    const updatedReview = await ReviewService.update(id, review);
+    res.json(updatedReview);
   } catch (e) {
     next(e);
   }
@@ -46,7 +47,7 @@ router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    await UserService.delete(id);
+    await ReviewService.delete(id);
     res.json(id);
   } catch (e) {
     next(e);

@@ -8,8 +8,8 @@ export interface UserInterface {
   password?:string;
   joindate: Date;
   status?: boolean;
-  days?: string;
-  hours?: string;
+  description?: string;
+  photourl?: string;
   jobdesk?: string;
 }
 

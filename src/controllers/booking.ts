@@ -1,12 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
-import { UserService } from '../services/user';
+import { BookingService } from '../services/booking';
 
 const router = express.Router();
 
 router.get('/', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await UserService.all();
-    res.json({ users });
+    const bookings = await BookingService.all();
+    res.json({ bookings });
   } catch (e) {
     next(e);
   }
@@ -15,8 +15,8 @@ router.get('/', async (req: Request, res: Response, next: NextFunction) => {
 router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = await UserService.get(id);
-    res.json(user);
+    const booking = await BookingService.get(id);
+    res.json(booking);
   } catch (e) {
     next(e);
   }
@@ -24,9 +24,9 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
 
 router.post('/create', async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const newUser = req.body;
-    const createduser = await UserService.create(newUser);
-    return res.json(createduser);
+    const newBooking = req.body;
+    const createdbooking = await BookingService.create(newBooking);
+    return res.json(createdbooking);
   } catch (e) {
     next(e);
   }
@@ -35,9 +35,9 @@ router.post('/create', async (req: Request, res: Response, next: NextFunction) =
 router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    const user = req.body;
-    const updatedUser = await UserService.update(id, user);
-    res.json(updatedUser);
+    const booking = req.body;
+    const updatedBooking = await BookingService.update(id, booking);
+    res.json(updatedBooking);
   } catch (e) {
     next(e);
   }
@@ -46,7 +46,7 @@ router.put('/:id', async (req: Request, res: Response, next: NextFunction) => {
 router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
-    await UserService.delete(id);
+    await BookingService.delete(id);
     res.json(id);
   } catch (e) {
     next(e);
