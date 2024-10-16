@@ -53,9 +53,9 @@ const generateFakeEmployees = (EMPLOYEES_NUM: number): FakeEmployee[] => {
 const createEmployees = async (EMPLOYEES_NUM: number): Promise<void> => {
   const fakeEmployeesData = generateFakeEmployees(EMPLOYEES_NUM);
   const fakeDemoUserData = {
-    firstname: "John",
-    lastname: "Doe",
-    email: "john.doe@example.com",
+    firstname: "Admin",
+    lastname: "Admin",
+    email: "admin@example.com",
     phonenumber: "645765609",
     password: "securepassword?5A!@", 
     joindate: new Date("2023-01-01"),

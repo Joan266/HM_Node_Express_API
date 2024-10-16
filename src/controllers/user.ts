@@ -3,7 +3,7 @@ import { UserService } from '../services/user';
 
 const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const users = await UserService.all();
     res.json({ users });
