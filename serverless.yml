@@ -1,4 +1,5 @@
 service: miranda-backend
+frameworkVersion: "3"
 package:
   patterns:
     - "!./**"
@@ -8,10 +9,10 @@ package:
 provider:
   name: aws
   region: eu-west-3
+  runtime: nodejs18.x
   environment:
-    TOKEN_SECRET: ${file(.env.json):TOKEN_SECRET}
-    MONGO_URL: ${file(.env.json):MONGO_URL}
-  runtime: nodejs20.x
+    TOKEN_SECRET: ${env:TOKEN_SECRET}
+    MONGODB_URI: ${env:MONGODB_URI}
 functions:
   app:
     handler: dist/lambda.handler

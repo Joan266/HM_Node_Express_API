@@ -3,7 +3,7 @@ import { BookingService } from '../services/booking';
 
 const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const bookings = await BookingService.all();
     res.json({ bookings });

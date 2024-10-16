@@ -3,7 +3,7 @@ import { ReviewService } from '../services/review';
 
 const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const reviews = await ReviewService.all();
     console.log(reviews)

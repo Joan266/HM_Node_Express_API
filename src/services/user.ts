@@ -51,9 +51,16 @@ export class UserService {
       throw new APIError('All fields must be filled', 400, true);
     }
 
-    const existingUser = await User.findOne({ email });
+    const existingUser = await User.findOne({
+      $or: [{ email }, { phonenumber }]
+    });
+    
     if (existingUser) {
-      throw new APIError('Email already in use', 409, true);
+      if (existingUser.email === email) {
+        throw new APIError('Email already in use', 409, true);
+      } else if (existingUser.phonenumber === phonenumber) {
+        throw new APIError('Phone number already in use', 409, true);
+      }
     }
 
     try {

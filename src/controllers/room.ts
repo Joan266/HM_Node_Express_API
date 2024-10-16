@@ -3,7 +3,7 @@ import { RoomService } from '../services/room';
 
 const router = express.Router();
 
-router.get('/', async (req: Request, res: Response, next: NextFunction) => {
+router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
     const rooms = await RoomService.all();
     res.json({ rooms });
