@@ -9,8 +9,10 @@ package:
 provider:
   name: aws
   region: eu-west-3
-
   runtime: nodejs18.x
+  environment:
+    TOKEN_SECRET: ${env:TOKEN_SECRET}
+    MONGODB_URI: ${env:MONGODB_URI}
 functions:
   app:
     handler: dist/lambda.handler

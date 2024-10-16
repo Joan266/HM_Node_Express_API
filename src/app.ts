@@ -13,8 +13,17 @@ export const app: Express = express();
 
 app.set('port', process.env.PORT || 5000);
 
-app.use(cors())
+const origins = [
+  'http://localhost:3000',
+  'http://localhost:5173',
+  'http://dashboard-miranda.s3-website.eu-west-3.amazonaws.com'
+];
+
 app.use(express.json());
+
+app.use(cors({
+	origin: origins
+}))
 
 app.get('/', (_req: Request, res: Response) => {
   res.send('API Miranda\nRoutes: /rooms, /bookings, /users, /reviews, /login');

@@ -162,13 +162,19 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/miranda-backend/dev/1729067750149-2024-10-16T08:35:50.149Z/miranda-backend.zip"
+          "S3Key": "serverless/miranda-backend/dev/1729090497887-2024-10-16T14:54:57.887Z/miranda-backend.zip"
         },
         "Handler": "dist/lambda.handler",
         "Runtime": "nodejs18.x",
         "FunctionName": "miranda-backend-dev-app",
         "MemorySize": 1024,
         "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "TOKEN_SECRET": "@Dx8!VVAcGKvA/fP&zYC&hcc2BU98r",
+            "MONGODB_URI": "mongodb+srv://joanalemany:T8p4Qjs9G5zkqvkr@cluster0.ytq83gd.mongodb.net/API_MIRANDA?retryWrites=true&w=majority"
+          }
+        },
         "Role": {
           "Fn::GetAtt": [
             "IamRoleLambdaExecution",
@@ -180,14 +186,14 @@
         "AppLogGroup"
       ]
     },
-    "AppLambdaVersionY5vXbMXgc255DTpBpV8bkaavLvCTc9hMymKPVGa08U": {
+    "AppLambdaVersionRpny55dKQJI3i3bNO9oTD75fDUZgRaztlk5Appqur8": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "mb+9kQfJ1W04iJVKx5hKlw+gS64uysPZThYQkryza7g="
+        "CodeSha256": "UX8aDG5u7kvwBspsbpi2O0gYnwkNnTA6CT+0TPJvedk="
       }
     },
     "ApiGatewayRestApi": {
@@ -405,7 +411,7 @@
         "AppLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1729067728934": {
+    "ApiGatewayDeployment1729090478698": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -470,7 +476,7 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionY5vXbMXgc255DTpBpV8bkaavLvCTc9hMymKPVGa08U"
+        "Ref": "AppLambdaVersionRpny55dKQJI3i3bNO9oTD75fDUZgRaztlk5Appqur8"
       },
       "Export": {
         "Name": "sls-miranda-backend-dev-AppLambdaFunctionQualifiedArn"
