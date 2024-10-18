@@ -1,8 +1,7 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-
+import mongoose from 'mongoose';
 import "dotenv/config";
-import { authenticateToken } from './middleware/auth';
 import userController from './controllers/user';
 import roomController from './controllers/room';
 import bookingController from './controllers/booking';
@@ -19,23 +18,69 @@ const origins = [
   'http://dashboard-miranda.s3-website.eu-west-3.amazonaws.com'
 ];
 
+app.use(cors({
+  origin: origins
+}));
+
 app.use(express.json());
 
-app.use(cors({
-	origin: origins
-}))
-
-app.get('/', (_req: Request, res: Response) => {
-  res.send('API Miranda\nRoutes: /rooms, /bookings, /users, /reviews, /login');
+app.get("/", (_req, res, _next) => {
+  return res.status(200).json({
+    message: "Hello from root!",
+  });
 });
 
+app.get("/hello", (_req, res, _next) => {
+  return res.status(200).json({
+    message: "Hello from path!",
+  });
+});
+
+let isConnected: boolean = false; 
+
+async function connectToMongoDB() {
+  if (isConnected) {
+    console.log('=> Using existing MongoDB connection');
+    return;
+  }
+  
+  if (!process.env.MONGODB_URI) {
+    console.error("MONGODB_URI is not defined in the .env file");
+    process.exit(1);
+  }
+
+  try {
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(process.env.MONGODB_URI);
+    isConnected = true; // Set connection state to true
+    console.log('=> Connected to MongoDB');
+  } catch (error) {
+    console.error('Failed to connect to MongoDB', error);
+    process.exit(1);
+  }
+}
+
+// Middleware to ensure MongoDB connection is established
+app.use(async (_req, _res, next) => {
+  await connectToMongoDB();
+  next();
+});
+
+// Set up routes
 app.use('/auth', authController);
-app.use(authenticateToken);
 app.use('/user', userController);
 app.use('/room', roomController);
 app.use('/booking', bookingController);
 app.use('/review', reviewController);
 
+// Handle 404 errors
+app.use((_req, res, _next) => {
+  return res.status(404).json({
+    error: "Not Found",
+  });
+});
+
+// Custom error class for better error handling
 export class APIError extends Error {
   status: number;
   safe: boolean;
@@ -47,9 +92,10 @@ export class APIError extends Error {
   }
 }
 
+// Global error handler
 app.use((err: APIError, _req: Request, res: Response, _next: NextFunction) => {
   console.error(err.message, err.safe, err.status);
-  res.status(err.status || 500).json({ message: err.safe ? err.message : 'Internal Server Error' });
+  res.status(err.status || 500).json({ message: err.message });
 });
 
 export default app;

@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (_req: Request, res: Response, next: NextFunction) => {
   try {
-    const users = await UserService.all();
+    const users = await UserService.all(); 
     res.json({ users });
   } catch (e) {
     next(e);
