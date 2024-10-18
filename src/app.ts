@@ -60,6 +60,8 @@ async function connectToMongoDB() {
   }
 }
 
+connectToMongoDB();
+
 // Middleware to ensure MongoDB connection is established
 app.use(async (_req, _res, next) => {
   await connectToMongoDB();

@@ -34,8 +34,7 @@ exports.app.get("/hello", (_req, res, _next) => {
         message: "Hello from path!",
     });
 });
-// Manage MongoDB connection
-let isConnected = false; // Track connection state
+let isConnected = false;
 async function connectToMongoDB() {
     if (isConnected) {
         console.log('=> Using existing MongoDB connection');
@@ -56,6 +55,7 @@ async function connectToMongoDB() {
         process.exit(1);
     }
 }
+connectToMongoDB();
 // Middleware to ensure MongoDB connection is established
 exports.app.use(async (_req, _res, next) => {
     await connectToMongoDB();

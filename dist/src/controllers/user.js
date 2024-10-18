@@ -8,15 +8,8 @@ const user_1 = require("../services/user");
 const router = express_1.default.Router();
 router.get('/', async (_req, res, next) => {
     try {
-        console.time("MongoDB Query Time");
         const users = await user_1.UserService.all();
-        console.timeEnd("MongoDB Query Time");
-        console.log("Fetched Users: ", users[0]);
-        return res.status(200).json({
-            message: "Hello from path user!",
-        });
-        // res.status(200).json(users[0],);
-        // console.log("Log after res "); 
+        res.json({ users });
     }
     catch (e) {
         next(e);
