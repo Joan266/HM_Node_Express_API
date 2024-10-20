@@ -7,7 +7,7 @@ import roomController from './controllers/room';
 import bookingController from './controllers/booking';
 import reviewController from './controllers/review';
 import authController from './controllers/auth';
-
+import { authenticateToken } from './middleware/auth';
 export const app: Express = express();
 
 app.set('port', process.env.PORT || 8447);
@@ -58,6 +58,9 @@ app.use(async (_req: Request, _res: Response, next: NextFunction) => {
 
 // API routes
 app.use('/auth', authController);
+
+app.use(authenticateToken);
+
 app.use('/user', userController);
 app.use('/room', roomController);
 app.use('/booking', bookingController);
