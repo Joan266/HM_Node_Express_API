@@ -12,8 +12,19 @@ export const app: Express = express();
 
 app.set('port', process.env.PORT || 8447);
 
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || '').split(',');
+
 // Middleware
-app.use(cors({ origin: '*' }));
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
 app.use(express.json());
 
 // Basic routes
