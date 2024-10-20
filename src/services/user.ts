@@ -18,14 +18,17 @@ export class UserService {
   }
 
   static async login(email: string, password: string) {
+    console.log("email",password)
     const user = await User.findOne({ email });
-
+    console.log("user",user)
+    console.log(!user || !user.password)
     if (!user || !user.password) {
       throw new APIError('Incorrect credentials', 401, true);
     }
 
     const match = await bcrypt.compare(password, user.password);
 
+    console.log(match)
     if (!match) {
       throw new APIError('Incorrect credentials', 401, true);
     }
