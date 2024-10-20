@@ -68,7 +68,6 @@ app.use((_req: Request, res: Response) => {
   res.status(404).json({ error: "Not Found" });
 });
 
-// Custom Error class
 export class APIError extends Error {
   status: number;
   safe: boolean;
