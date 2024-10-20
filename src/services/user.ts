@@ -1,7 +1,7 @@
 import { UserInterface } from '../interfaces/user';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
-import { APIError } from '../app';
+import { APIError } from '../server';
 
 export class UserService {
   static async all() {

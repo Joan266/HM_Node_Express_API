@@ -1,6 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import request from 'supertest';
-import { app } from './app';
+import { app } from './server';
 
 describe('API Endpoints', () => {
   let userToken: string;

@@ -1,6 +1,6 @@
 import { ReviewInterface } from '../interfaces/review';
 import Review from '../models/review';
-import { APIError } from '../app';
+import { APIError } from '../server';
 
 export class ReviewService {
   static async all() {

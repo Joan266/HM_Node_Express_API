@@ -1,6 +1,6 @@
 import { RoomInterface } from '../interfaces/room';
 import Room from '../models/room';
-import { APIError } from '../app';
+import { APIError } from '../server';
 
 export class RoomService {
   static async all() {

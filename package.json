@@ -2,7 +2,7 @@
   "name": "api-miranda",
   "version": "1.0.0",
   "description": "API",
-  "main": "server.ts",
+  "main": ".src/server.ts",
   "scripts": {
     "build": "rimraf dist && tsc --build",
     "start": "node ./dist/server.js",

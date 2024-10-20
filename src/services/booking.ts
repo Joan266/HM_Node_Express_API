@@ -1,6 +1,6 @@
 import { BookingInterface } from '../interfaces/booking';
 import Booking from '../models/booking';
-import { APIError } from '../app';
+import { APIError } from '../server';
 
 export class BookingService {
   static async all() {
