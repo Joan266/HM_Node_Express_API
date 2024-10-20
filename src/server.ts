@@ -8,7 +8,7 @@ import bookingController from './controllers/booking';
 import reviewController from './controllers/review';
 import authController from './controllers/auth';
 
-const app: Express = express();
+export const app: Express = express();
 
 app.set('port', process.env.PORT || 8447);
 
