@@ -10,7 +10,7 @@ import authController from './controllers/auth';
 
 export const app: Express = express();
 
-app.set('port', process.env.PORT || 5000);
+app.set('port', process.env.PORT || 8447);
 
 const origins = [
   'http://localhost:3000',
@@ -52,7 +52,7 @@ async function connectToMongoDB() {
   try {
     console.log('Connecting to MongoDB...');
     await mongoose.connect(process.env.MONGODB_URI);
-    isConnected = true; // Set connection state to true
+    isConnected = true; 
     console.log('=> Connected to MongoDB');
   } catch (error) {
     console.error('Failed to connect to MongoDB', error);
